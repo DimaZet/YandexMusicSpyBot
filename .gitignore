@@ -1,0 +1,41 @@
+# Не добавлять секреты Kubernetes
+k8s/secrets.yaml
+
+# Не добавлять .env и подобные файлы
+**/.env*
+
+# Java
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Логи
+*.log
+
+# Другие временные файлы
+*.swp
+*.swo
+
+# Не добавлять docker-compose override файлы
+*docker-compose.override.yml 

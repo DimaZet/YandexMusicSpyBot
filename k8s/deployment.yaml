@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yanmusic-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yanmusic-app
+  template:
+    metadata:
+      labels:
+        app: yanmusic-app
+    spec:
+      imagePullSecrets:
+        - name: yanmusic-docker-secret
+      containers:
+        - name: yanmusic-java
+          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.12
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: TELEGRAM_BOT_TOKEN
+            - name: TELEGRAM_BOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: TELEGRAM_BOT_USERNAME
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: DATABASE_URL
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: DATABASE_USERNAME
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: DATABASE_PASSWORD
+            - name: BOT_CRON
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: BOT_CRON
+            - name: YANDEX_ADAPTER_BASE_URL
+              value: "http://localhost:5000"
+        - name: yanmusic-sidecar
+          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandex-music-adapter:0.0.2
+          ports:
+            - containerPort: 5000
+          env:
+            - name: YANDEX_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: yanmusic-secrets
+                  key: YANDEX_TOKEN
