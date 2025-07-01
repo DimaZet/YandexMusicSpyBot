@@ -2,6 +2,7 @@ package ru.dimatorzok.yandexmusic.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 import ru.dimatorzok.yandexmusic.telegram.YanMusicBot;
@@ -13,6 +14,7 @@ import lombok.SneakyThrows;
 
 @RequiredArgsConstructor
 @Configuration
+@Profile("!test")
 public class TelegramBotConfig {
 
     @Value("${telegram.bot.token}")

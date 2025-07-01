@@ -1,0 +1,5 @@
+telegram:
+  bot:
+    username: bname
+    token: btoken
+    cron: 0 30 11,18 * * *

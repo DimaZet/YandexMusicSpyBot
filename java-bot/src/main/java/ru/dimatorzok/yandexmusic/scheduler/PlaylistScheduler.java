@@ -13,7 +13,7 @@ import ru.dimatorzok.yandexmusic.external.PlaylistRequest;
 import ru.dimatorzok.yandexmusic.external.TrackInfo;
 import ru.dimatorzok.yandexmusic.repository.ChatRepository;
 import ru.dimatorzok.yandexmusic.repository.SubscriptionRepository;
-import ru.dimatorzok.yandexmusic.service.AudioSenderService;
+import ru.dimatorzok.yandexmusic.service.OutboxEventService;
 import ru.dimatorzok.yandexmusic.service.YandexMusicService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class PlaylistScheduler {
 
     private final ChatRepository chatRepository;
 
-    private final AudioSenderService audioSenderService;
+    private final OutboxEventService outboxEventService;
 
     @SneakyThrows
     @Scheduled(cron = "${telegram.bot.cron}")
@@ -53,7 +53,8 @@ public class PlaylistScheduler {
                         .limit(10)
                         .toList();
                 if (!newTracks.isEmpty()) {
-                    audioSenderService.sendAudios(
+                    // Создаем outbox событие для отправки аудио
+                    outboxEventService.createAudioSendEvent(
                             sub.getChat().getTelegramChatId(),
                             sub.getUser().getTelegramUsername(),
                             sub.getUser().getTelegramUserId(),
