@@ -16,7 +16,7 @@ spec:
         - name: yanmusic-docker-secret
       containers:
         - name: yanmusic-java
-          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.14
+          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.16
           ports:
             - containerPort: 8080
           livenessProbe:
