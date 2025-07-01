@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: yanmusic-config
+  labels:
+    app: yanmusic-app
+data:
+  BOT_CRON: "0 0 10,18 * * *" 

@@ -59,8 +59,8 @@ spec:
                   key: DATABASE_PASSWORD
             - name: BOT_CRON
               valueFrom:
-                secretKeyRef:
-                  name: yanmusic-secrets
+                configMapKeyRef:
+                  name: yanmusic-config
                   key: BOT_CRON
             - name: YANDEX_ADAPTER_BASE_URL
               value: "http://localhost:5000"
