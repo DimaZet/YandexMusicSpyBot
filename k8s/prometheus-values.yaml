@@ -1,0 +1,45 @@
+prometheus:
+  prometheusSpec:
+    retention: 2d
+    resources:
+      limits:
+        cpu: 400m
+        memory: 600Mi
+      requests:
+        cpu: 200m
+        memory: 300Mi
+    additionalScrapeConfigs:      
+      - job_name: 'yanmusic-java'
+        metrics_path: /actuator/prometheus
+        static_configs:
+          - targets: ['yanmusic-java.default.svc.cluster.local:8080']
+
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 120Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+
+grafana:
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+
+# Отключаем ненужные компоненты для экономии ресурсов
+kube-state-metrics:
+  enabled: false
+
+node-exporter:
+  enabled: false
+
+# Отключаем pushgateway
+prometheus-pushgateway:
+  enabled: false

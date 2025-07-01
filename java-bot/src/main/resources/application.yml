@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: yandex-music-spy-bot
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -20,3 +22,18 @@ telegram:
     username: ${TELEGRAM_BOT_USERNAME}
     token: ${TELEGRAM_BOT_TOKEN}
     cron: ${BOT_CRON:0 30 11,18 * * *}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true

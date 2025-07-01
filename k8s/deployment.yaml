@@ -16,9 +16,21 @@ spec:
         - name: yanmusic-docker-secret
       containers:
         - name: yanmusic-java
-          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.12
+          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.14
           ports:
             - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
           env:
             - name: TELEGRAM_BOT_TOKEN
               valueFrom:
