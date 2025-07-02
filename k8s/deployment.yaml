@@ -16,21 +16,30 @@ spec:
         - name: yanmusic-docker-secret
       containers:
         - name: yanmusic-java
-          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.16
+          image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandexmusic-spy-bot:0.0.19
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 15
+            timeoutSeconds: 2
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 2
           env:
             - name: TELEGRAM_BOT_TOKEN
               valueFrom:
@@ -64,6 +73,8 @@ spec:
                   key: BOT_CRON
             - name: YANDEX_ADAPTER_BASE_URL
               value: "http://localhost:5000"
+            - name: JAVA_OPTS
+              value: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:InitialRAMPercentage=50.0"
         - name: yanmusic-sidecar
           image: dimatorzok-images.registry.twcstorage.ru/yandexmusicspy/yandex-music-adapter:0.0.2
           ports:

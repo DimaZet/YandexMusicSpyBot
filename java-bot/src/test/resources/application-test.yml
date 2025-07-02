@@ -3,3 +3,7 @@ telegram:
     username: bname
     token: btoken
     cron: 0 30 11,18 * * *
+
+spring:
+  jpa:
+    show-sql: true
